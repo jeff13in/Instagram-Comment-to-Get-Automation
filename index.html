@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Automate Instagram comment responses with intelligent keyword detection. Grow your engagement effortlessly with 3p99 Comment-Bot.">
+    <title>3p99 - Instagram Comment-Bot Automation | Auto-Respond & Engage</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Google Sign-In API -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-wrapper">
+                <div class="logo">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                        <rect width="32" height="32" rx="8" fill="#6366F1"/>
+                        <path d="M10 16L14 20L22 12" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span class="logo-text">3p99</span>
+                </div>
+                <div class="nav-links">
+                    <a href="#features">Features</a>
+                    <a href="#how-it-works">How It Works</a>
+                    <a href="#pricing">Pricing</a>
+                    <a href="#faq">FAQ</a>
+                </div>
+                <div class="nav-cta">
+                    <!-- Sign In Button (shown when not logged in) -->
+                    <div id="googleSignInBtn" class="google-signin-wrapper"></div>
+
+                    <!-- User Profile (shown when logged in) -->
+                    <div id="userProfile" class="user-profile" style="display: none;">
+                        <button class="profile-button">
+                            <img src="" alt="Profile" class="profile-avatar" id="profileAvatar">
+                            <span class="profile-name" id="profileName"></span>
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                        <div class="profile-dropdown" id="profileDropdown">
+                            <div class="dropdown-header">
+                                <img src="" alt="Profile" class="dropdown-avatar" id="dropdownAvatar">
+                                <div class="dropdown-info">
+                                    <div class="dropdown-name" id="dropdownName"></div>
+                                    <div class="dropdown-email" id="dropdownEmail"></div>
+                                </div>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            <a href="#dashboard" class="dropdown-item">
+                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                    <path d="M7.5 1.5H1.5V7.5H7.5V1.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M16.5 1.5H10.5V7.5H16.5V1.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M16.5 10.5H10.5V16.5H16.5V10.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M7.5 10.5H1.5V16.5H7.5V10.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                Dashboard
+                            </a>
+                            <a href="#settings" class="dropdown-item">
+                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                    <path d="M9 11.25C10.2426 11.25 11.25 10.2426 11.25 9C11.25 7.75736 10.2426 6.75 9 6.75C7.75736 6.75 6.75 7.75736 6.75 9C6.75 10.2426 7.75736 11.25 9 11.25Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M14.25 11.25C14.1844 11.4088 14.1626 11.5815 14.1867 11.751C14.2109 11.9205 14.2801 12.0809 14.3875 12.2156L14.4225 12.2606C14.5086 12.3716 14.572 12.4984 14.6092 12.6337C14.6464 12.7691 14.6566 12.9104 14.6393 13.0496C14.6219 13.1889 14.5774 13.3234 14.5082 13.4454C14.4389 13.5675 14.3462 13.6748 14.235 13.7606C14.124 13.8467 13.9972 13.9101 13.8619 13.9473C13.7265 13.9845 13.5852 13.9947 13.4459 13.9774C13.3067 13.96 13.1722 13.9155 13.0502 13.8463C12.9281 13.777 12.8208 13.6843 12.735 13.5731L12.7 13.5381C12.5653 13.4307 12.4049 13.3615 12.2354 13.3374C12.0659 13.3132 11.8932 13.335 11.7344 13.4006C11.5784 13.4631 11.4416 13.5668 11.3381 13.7009C11.2347 13.835 11.1683 13.9947 11.1456 14.1631V14.25C11.1456 14.5315 11.0337 14.8014 10.8337 15.0014C10.6336 15.2015 10.3637 15.3131 10.0822 15.3131C9.80069 15.3131 9.53084 15.2015 9.33079 15.0014C9.13075 14.8014 9.01875 14.5315 9.01875 14.25V14.2C8.99045 14.0251 8.91558 13.8612 8.80192 13.7253C8.68826 13.5894 8.53996 13.4865 8.3725 13.4275C8.21375 13.3619 8.04107 13.3401 7.87158 13.3643C7.70208 13.3884 7.54165 13.4576 7.40625 13.565L7.37125 13.6C7.26007 13.6861 7.13275 13.7495 6.99741 13.7867C6.86207 13.8239 6.72081 13.8341 6.58157 13.8167C6.44233 13.7994 6.30781 13.7549 6.18577 13.6856C6.06373 13.6164 5.95645 13.5237 5.87063 13.4125C5.78453 13.3015 5.72112 13.1747 5.68393 13.0393C5.64674 12.904 5.63651 12.7627 5.65384 12.6235C5.67117 12.4842 5.71567 12.3497 5.78491 12.2277C5.85414 12.1056 5.94684 11.9983 6.05813 11.9125L6.09312 11.8775C6.20053 11.7428 6.26975 11.5824 6.29388 11.4129C6.318 11.2434 6.29625 11.0707 6.23063 10.9119C6.16812 10.7559 6.06446 10.6191 5.93034 10.5156C5.79622 10.4122 5.63651 10.3458 5.46813 10.3231H5.38125C5.09971 10.3231 4.82986 10.2115 4.62982 10.0115C4.42977 9.81142 4.31812 9.54157 4.31812 9.26C4.31812 8.97843 4.42977 8.70858 4.62982 8.50854C4.82986 8.30849 5.09971 8.19687 5.38125 8.19687H5.4375C5.61238 8.16857 5.77629 8.09371 5.91218 7.98004C6.04806 7.86638 6.15101 7.71809 6.21 7.55063C6.27562 7.39187 6.29737 7.2192 6.27325 7.0497C6.24912 6.88021 6.1799 6.71977 6.0725 6.58438L6.0375 6.54938C5.92621 6.43819 5.86281 6.31088 5.82561 6.17554C5.78842 6.0402 5.77819 5.89894 5.79553 5.75969C5.81286 5.62045 5.85736 5.48593 5.92659 5.36389C5.99583 5.24186 6.08853 5.13457 6.19969 5.04875C6.31065 4.96265 6.43741 4.89924 6.57275 4.86205C6.70808 4.82486 6.84935 4.81464 6.98859 4.83197C7.12783 4.8493 7.26235 4.8938 7.38439 4.96304C7.50642 5.03227 7.61371 5.12497 7.69953 5.23625L7.73453 5.27125C7.86992 5.37866 8.03036 5.44788 8.19986 5.472C8.36935 5.49613 8.54202 5.47438 8.70078 5.40875H8.73578C8.89172 5.34624 9.02856 5.24258 9.13202 5.10846C9.23548 4.97434 9.30187 4.81463 9.32453 4.64625V4.55937C9.32453 4.27783 9.43619 4.00798 9.63623 3.80794C9.83627 3.60789 10.1061 3.49625 10.3877 3.49625C10.6692 3.49625 10.9391 3.60789 11.1391 3.80794C11.3392 4.00798 11.4508 4.27783 11.4508 4.55937V4.61562C11.4735 4.784 11.5399 4.94372 11.6433 5.07783C11.7468 5.21195 11.8836 5.31562 12.0396 5.37812C12.1983 5.44375 12.371 5.4655 12.5405 5.44138C12.71 5.41725 12.8704 5.34803 13.0058 5.24062L13.0408 5.20562C13.152 5.11952 13.2793 5.05612 13.4146 5.01892C13.55 4.98173 13.6912 4.97151 13.8305 4.98884C13.9697 5.00617 14.1042 5.05067 14.2263 5.1199C14.3483 5.18914 14.4556 5.28184 14.5414 5.393C14.6275 5.50396 14.6909 5.63072 14.7281 5.76606C14.7653 5.90139 14.7755 6.04266 14.7582 6.1819C14.7408 6.32114 14.6963 6.45566 14.6271 6.5777C14.5579 6.69973 14.4652 6.80702 14.354 6.89281L14.319 6.92781C14.2116 7.0632 14.1424 7.22364 14.1182 7.39314C14.0941 7.56263 14.1159 7.7353 14.1815 7.89406V7.92906C14.244 8.085 14.3477 8.22184 14.4818 8.3253C14.6159 8.42876 14.7756 8.49515 14.944 8.51781H15.0308C15.3124 8.51781 15.5822 8.62947 15.7823 8.82951C15.9823 9.02955 16.094 9.2994 16.094 9.58094C16.094 9.86247 15.9823 10.1323 15.7823 10.3324C15.5822 10.5324 15.3124 10.6441 15.0308 10.6441H14.9746C14.8062 10.6667 14.6465 10.7331 14.5124 10.8366C14.3782 10.9401 14.2746 11.0769 14.2121 11.2328V11.25Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                Settings
+                            </a>
+                            <a href="#billing" class="dropdown-item">
+                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                    <path d="M15.75 3H2.25C1.83579 3 1.5 3.33579 1.5 3.75V14.25C1.5 14.6642 1.83579 15 2.25 15H15.75C16.1642 15 16.5 14.6642 16.5 14.25V3.75C16.5 3.33579 16.1642 3 15.75 3Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M1.5 7.5H16.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                Billing
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <button class="dropdown-item" id="signOutBtn">
+                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                    <path d="M6.75 15.75H3.75C3.35218 15.75 2.97064 15.592 2.68934 15.3107C2.40804 15.0294 2.25 14.6478 2.25 14.25V3.75C2.25 3.35218 2.40804 2.97064 2.68934 2.68934C2.97064 2.40804 3.35218 2.25 3.75 2.25H6.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M12 12.75L15.75 9L12 5.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M15.75 9H6.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                Sign Out
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="badge-icon">✨</span>
+                    <span>Instagram Graph API Powered</span>
+                </div>
+                <h1 class="hero-title">
+                    Automate Instagram Comments.<br>
+                    <span class="gradient-text">Engage Instantly.</span>
+                </h1>
+                <p class="hero-description">
+                    Never miss a comment again. Our intelligent bot monitors your Instagram posts 24/7,
+                    detects keyword triggers, and responds automatically with personalized messages and DMs.
+                </p>
+                <div class="hero-cta">
+                    <a href="#get-started" class="btn btn-primary btn-large">
+                        Start Free Trial
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
+                    <a href="#demo" class="btn btn-secondary btn-large">
+                        Watch Demo
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M8 5L14 10L8 15V5Z" fill="currentColor"/>
+                        </svg>
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-number">10K+</div>
+                        <div class="stat-label">Comments Processed</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">95%</div>
+                        <div class="stat-label">Response Rate</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">&lt;60s</div>
+                        <div class="stat-label">Avg Response Time</div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="visual-card">
+                    <div class="visual-header">
+                        <div class="visual-avatar"></div>
+                        <div class="visual-info">
+                            <div class="visual-name">Your Instagram Post</div>
+                            <div class="visual-time">2 minutes ago</div>
+                        </div>
+                    </div>
+                    <div class="visual-image"></div>
+                    <div class="visual-comments">
+                        <div class="comment">
+                            <div class="comment-avatar"></div>
+                            <div class="comment-content">
+                                <span class="comment-user">user_123</span>
+                                <span class="comment-text">I'd love to win this giveaway! 🎉</span>
+                            </div>
+                        </div>
+                        <div class="comment bot-reply">
+                            <div class="comment-avatar bot"></div>
+                            <div class="comment-content">
+                                <span class="comment-user">your_account <span class="bot-badge">BOT</span></span>
+                                <span class="comment-text">Thanks for participating! Check your DMs 💬</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Powerful Automation Features</h2>
+                <p class="section-description">Everything you need to manage Instagram engagement at scale</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M21 11.5C21 16.75 16.75 21 11.5 21C6.25 21 2 16.75 2 11.5C2 6.25 6.25 2 11.5 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M22 22L20 20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Keyword Detection</h3>
+                    <p class="feature-description">Automatically detect trigger words like "giveaway", "cyber", "books" in comments and respond instantly.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Auto-Reply to Comments</h3>
+                    <p class="feature-description">Send customized replies to comments automatically. Build engagement while you sleep.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M21 11.5C21 16.75 16.75 21 11.5 21C6.25 21 2 16.75 2 11.5C2 6.25 6.25 2 11.5 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            <circle cx="17" cy="7" r="3" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Direct Message Automation</h3>
+                    <p class="feature-description">Send personalized DMs to commenters automatically. Perfect for giveaways and promotions.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Multi-Post Monitoring</h3>
+                    <p class="feature-description">Track comments across all your recent posts simultaneously. Never miss an engagement opportunity.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2"/>
+                            <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Real-Time Processing</h3>
+                    <p class="feature-description">Webhook-based instant notifications. Respond to comments within seconds of posting.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 2V6M12 18V22M4.93 4.93L7.76 7.76M16.24 16.24L19.07 19.07M2 12H6M18 12H22M4.93 19.07L7.76 16.24M16.24 7.76L19.07 4.93" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Duplicate Prevention</h3>
+                    <p class="feature-description">Smart tracking ensures each comment gets only one response. No spam, just professionalism.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">How It Works</h2>
+                <p class="section-description">Get started in minutes with our simple 4-step process</p>
+            </div>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">01</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Connect Your Instagram</h3>
+                        <p class="step-description">Authenticate securely using Instagram Graph API. We handle all the OAuth complexity for you.</p>
+                        <div class="step-details">
+                            <span class="detail-badge">OAuth 2.0</span>
+                            <span class="detail-badge">Secure</span>
+                            <span class="detail-badge">2-minute setup</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">02</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Configure Keywords & Responses</h3>
+                        <p class="step-description">Set your trigger keywords and customize reply messages. Supports multiple keyword sets and response templates.</p>
+                        <div class="step-code">
+                            <code>
+                                {<br>
+                                &nbsp;&nbsp;"keywords": ["giveaway", "cyber", "books"],<br>
+                                &nbsp;&nbsp;"reply": "Thanks for participating! 🎉",<br>
+                                &nbsp;&nbsp;"dm": "Check your inbox for details!"<br>
+                                }
+                            </code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">03</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Deploy & Activate</h3>
+                        <p class="step-description">Choose between polling mode (60-second checks) or webhook mode (instant notifications). Deploy with one click.</p>
+                        <div class="step-options">
+                            <div class="option">
+                                <div class="option-icon">🔄</div>
+                                <div class="option-name">Polling Mode</div>
+                                <div class="option-desc">Check every 60s</div>
+                            </div>
+                            <div class="option">
+                                <div class="option-icon">⚡</div>
+                                <div class="option-name">Webhook Mode</div>
+                                <div class="option-desc">Real-time events</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">04</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Monitor & Optimize</h3>
+                        <p class="step-description">Track engagement metrics, response rates, and conversation quality. Fine-tune your automation strategy.</p>
+                        <div class="step-metrics">
+                            <div class="metric">
+                                <div class="metric-value">1,247</div>
+                                <div class="metric-label">Comments Processed</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-value">98%</div>
+                                <div class="metric-label">Success Rate</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-value">42s</div>
+                                <div class="metric-label">Avg Response Time</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Video Section -->
+    <section id="demo" class="demo">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">See It In Action</h2>
+                <p class="section-description">Watch how our Instagram bot responds to comments in real-time</p>
+            </div>
+            <div class="demo-content">
+                <div class="video-container">
+                    <div class="video-placeholder">
+                        <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+                            <circle cx="40" cy="40" r="40" fill="#6366F1" opacity="0.1"/>
+                            <circle cx="40" cy="40" r="30" fill="#6366F1" opacity="0.2"/>
+                            <path d="M32 28L54 40L32 52V28Z" fill="#6366F1"/>
+                        </svg>
+                        <p class="video-text">Demo Video Coming Soon</p>
+                        <p class="video-subtext">See automated comment responses and DM sending</p>
+                    </div>
+                </div>
+                <div class="demo-features">
+                    <div class="demo-feature">
+                        <div class="demo-feature-icon">⚡</div>
+                        <div class="demo-feature-content">
+                            <h3>Instant Detection</h3>
+                            <p>Watch keywords get detected the moment a comment is posted</p>
+                        </div>
+                    </div>
+                    <div class="demo-feature">
+                        <div class="demo-feature-icon">💬</div>
+                        <div class="demo-feature-content">
+                            <h3>Auto-Reply</h3>
+                            <p>See personalized responses sent automatically to commenters</p>
+                        </div>
+                    </div>
+                    <div class="demo-feature">
+                        <div class="demo-feature-icon">📨</div>
+                        <div class="demo-feature-content">
+                            <h3>DM Follow-up</h3>
+                            <p>Direct messages sent to interested users without manual work</p>
+                        </div>
+                    </div>
+                    <div class="demo-feature">
+                        <div class="demo-feature-icon">📊</div>
+                        <div class="demo-feature-content">
+                            <h3>Real-time Analytics</h3>
+                            <p>Track engagement metrics and response rates live</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Use Cases Section -->
+    <section class="use-cases">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Perfect For</h2>
+                <p class="section-description">Built for creators, businesses, and marketers who value engagement</p>
+            </div>
+            <div class="use-cases-grid">
+                <div class="use-case">
+                    <div class="use-case-emoji">🎁</div>
+                    <h3>Giveaway Campaigns</h3>
+                    <p>Auto-reply to giveaway comments and send entry confirmations via DM instantly.</p>
+                </div>
+                <div class="use-case">
+                    <div class="use-case-emoji">🛍️</div>
+                    <h3>E-commerce Stores</h3>
+                    <p>Respond to product inquiries and share discount codes automatically.</p>
+                </div>
+                <div class="use-case">
+                    <div class="use-case-emoji">🎨</div>
+                    <h3>Content Creators</h3>
+                    <p>Engage with your audience 24/7 without being glued to your phone.</p>
+                </div>
+                <div class="use-case">
+                    <div class="use-case-emoji">📚</div>
+                    <h3>Book Launches</h3>
+                    <p>Respond to reader questions and share purchase links automatically.</p>
+                </div>
+                <div class="use-case">
+                    <div class="use-case-emoji">🎓</div>
+                    <h3>Educational Content</h3>
+                    <p>Direct students to resources and answer common questions instantly.</p>
+                </div>
+                <div class="use-case">
+                    <div class="use-case-emoji">🎪</div>
+                    <h3>Event Promotion</h3>
+                    <p>Send event details and registration links to interested commenters.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Simple, Transparent Pricing</h2>
+                <p class="section-description">Choose the plan that fits your engagement needs</p>
+            </div>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3 class="pricing-name">Starter</h3>
+                        <div class="pricing-price">
+                            <span class="price-currency">$</span>
+                            <span class="price-amount">19</span>
+                            <span class="price-period">/month</span>
+                        </div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>✓ 1 Instagram account</li>
+                        <li>✓ 1,000 comments/month</li>
+                        <li>✓ 3 keyword sets</li>
+                        <li>✓ Basic analytics</li>
+                        <li>✓ Email support</li>
+                    </ul>
+                    <a href="#get-started" class="btn btn-outline">Get Started</a>
+                </div>
+
+                <div class="pricing-card featured">
+                    <div class="pricing-badge">Most Popular</div>
+                    <div class="pricing-header">
+                        <h3 class="pricing-name">Professional</h3>
+                        <div class="pricing-price">
+                            <span class="price-currency">$</span>
+                            <span class="price-amount">49</span>
+                            <span class="price-period">/month</span>
+                        </div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>✓ 3 Instagram accounts</li>
+                        <li>✓ 10,000 comments/month</li>
+                        <li>✓ Unlimited keyword sets</li>
+                        <li>✓ Advanced analytics</li>
+                        <li>✓ Webhook mode</li>
+                        <li>✓ Priority support</li>
+                        <li>✓ Custom templates</li>
+                    </ul>
+                    <a href="#get-started" class="btn btn-primary">Get Started</a>
+                </div>
+
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3 class="pricing-name">Enterprise</h3>
+                        <div class="pricing-price">
+                            <span class="price-currency">$</span>
+                            <span class="price-amount">149</span>
+                            <span class="price-period">/month</span>
+                        </div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>✓ Unlimited accounts</li>
+                        <li>✓ Unlimited comments</li>
+                        <li>✓ White-label option</li>
+                        <li>✓ API access</li>
+                        <li>✓ Dedicated support</li>
+                        <li>✓ SLA guarantee</li>
+                        <li>✓ Custom integrations</li>
+                    </ul>
+                    <a href="#get-started" class="btn btn-outline">Contact Sales</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="faq">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Frequently Asked Questions</h2>
+            </div>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <h3 class="faq-question">Is this compliant with Instagram's API policies?</h3>
+                    <p class="faq-answer">Yes! We use the official Instagram Graph API v21.0 with proper OAuth authentication. All features comply with Meta's Platform Terms and API guidelines.</p>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">How fast are the responses?</h3>
+                    <p class="faq-answer">In webhook mode, responses are sent within seconds. In polling mode, comments are checked every 60 seconds to respect API rate limits.</p>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">Can I customize the responses?</h3>
+                    <p class="faq-answer">Absolutely! You can set custom reply messages, DM templates, and configure multiple keyword-response pairs. Supports dynamic variables like username.</p>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">What if I exceed my comment limit?</h3>
+                    <p class="faq-answer">The bot will continue monitoring but won't send responses until the next billing cycle. You can upgrade your plan anytime for higher limits.</p>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">Do you store my Instagram credentials?</h3>
+                    <p class="faq-answer">No. We only store the OAuth access token (encrypted) which has limited permissions. You can revoke access anytime from your Instagram settings.</p>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">Can I use this for multiple accounts?</h3>
+                    <p class="faq-answer">Yes, depending on your plan. Professional supports 3 accounts and Enterprise supports unlimited accounts.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="get-started" class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2 class="cta-title">Ready to Automate Your Instagram Engagement?</h2>
+                <p class="cta-description">Join hundreds of creators and businesses scaling their Instagram presence</p>
+                <div class="cta-form">
+                    <input type="email" class="cta-input" placeholder="Enter your email">
+                    <button class="btn btn-primary btn-large">Start Free Trial</button>
+                </div>
+                <p class="cta-note">No credit card required • 14-day free trial • Cancel anytime</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                            <rect width="32" height="32" rx="8" fill="#6366F1"/>
+                            <path d="M10 16L14 20L22 12" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span class="logo-text">3p99</span>
+                    </div>
+                    <p class="footer-tagline">Intelligent Instagram automation for modern creators</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Product</h4>
+                        <a href="#features">Features</a>
+                        <a href="#pricing">Pricing</a>
+                        <a href="#demo">Demo</a>
+                        <a href="#docs">Documentation</a>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Company</h4>
+                        <a href="#about">About</a>
+                        <a href="#blog">Blog</a>
+                        <a href="#contact">Contact</a>
+                        <a href="#careers">Careers</a>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Legal</h4>
+                        <a href="privacy_policy.html">Privacy Policy</a>
+                        <a href="#terms">Terms of Service</a>
+                        <a href="#api-terms">API Terms</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 3p99. All rights reserved.</p>
+                <p>Built with Instagram Graph API v21.0</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

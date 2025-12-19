@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Complete documentation for 3p99 Instagram Comment-Bot automation - Setup guide, API reference, and troubleshooting">
+    <title>Documentation - 3p99 Instagram Comment-Bot</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .docs-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 120px 24px 80px;
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 60px;
+        }
+
+        .docs-sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        .docs-nav {
+            list-style: none;
+        }
+
+        .docs-nav-section {
+            margin-bottom: 24px;
+        }
+
+        .docs-nav-title {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--gray);
+            margin-bottom: 12px;
+        }
+
+        .docs-nav a {
+            display: block;
+            padding: 8px 12px;
+            color: var(--gray);
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.2s;
+            margin-bottom: 4px;
+        }
+
+        .docs-nav a:hover {
+            background: var(--gray-lighter);
+            color: var(--primary);
+        }
+
+        .docs-nav a.active {
+            background: var(--primary-light);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .docs-content {
+            max-width: 800px;
+        }
+
+        .docs-header {
+            margin-bottom: 40px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--gray-lighter);
+        }
+
+        .docs-title {
+            font-size: 42px;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 12px;
+        }
+
+        .docs-description {
+            font-size: 18px;
+            color: var(--gray);
+            line-height: 1.6;
+        }
+
+        .docs-section {
+            margin-bottom: 60px;
+        }
+
+        .docs-section h2 {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 16px;
+            padding-top: 20px;
+        }
+
+        .docs-section h3 {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--dark);
+            margin: 32px 0 16px;
+        }
+
+        .docs-section p {
+            font-size: 16px;
+            color: var(--gray);
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+
+        .docs-section ul, .docs-section ol {
+            margin-bottom: 16px;
+            padding-left: 24px;
+        }
+
+        .docs-section li {
+            font-size: 16px;
+            color: var(--gray);
+            line-height: 1.8;
+            margin-bottom: 8px;
+        }
+
+        .code-block {
+            background: var(--dark);
+            color: #A5B4FC;
+            padding: 24px;
+            border-radius: 12px;
+            overflow-x: auto;
+            margin: 24px 0;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .code-block code {
+            color: #A5B4FC;
+        }
+
+        .inline-code {
+            background: var(--gray-lighter);
+            color: var(--primary);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 14px;
+        }
+
+        .info-box {
+            background: #EFF6FF;
+            border-left: 4px solid #3B82F6;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 24px 0;
+        }
+
+        .info-box p {
+            margin-bottom: 0;
+            color: #1E40AF;
+        }
+
+        .warning-box {
+            background: #FEF3C7;
+            border-left: 4px solid #F59E0B;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 24px 0;
+        }
+
+        .warning-box p {
+            margin-bottom: 0;
+            color: #92400E;
+        }
+
+        .api-endpoint {
+            background: var(--gray-lighter);
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin: 16px 0;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .api-method {
+            background: var(--primary);
+            color: var(--white);
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 12px;
+        }
+
+        .api-path {
+            font-family: 'Monaco', 'Courier New', monospace;
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        @media (max-width: 1024px) {
+            .docs-container {
+                grid-template-columns: 1fr;
+            }
+
+            .docs-sidebar {
+                position: relative;
+                top: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-wrapper">
+                <div class="logo">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                        <rect width="32" height="32" rx="8" fill="#6366F1"/>
+                        <path d="M10 16L14 20L22 12" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span class="logo-text">3p99</span>
+                </div>
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="index.html#features">Features</a>
+                    <a href="index.html#pricing">Pricing</a>
+                    <a href="docs.html">Docs</a>
+                </div>
+                <div class="nav-cta">
+                    <a href="index.html#get-started" class="btn btn-primary">Get Started</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="docs-container">
+        <!-- Sidebar Navigation -->
+        <aside class="docs-sidebar">
+            <nav class="docs-nav">
+                <div class="docs-nav-section">
+                    <div class="docs-nav-title">Getting Started</div>
+                    <a href="#overview" class="active">Overview</a>
+                    <a href="#quick-start">Quick Start</a>
+                    <a href="#installation">Installation</a>
+                    <a href="#authentication">Authentication</a>
+                </div>
+                <div class="docs-nav-section">
+                    <div class="docs-nav-title">Configuration</div>
+                    <a href="#keywords">Keywords Setup</a>
+                    <a href="#templates">Message Templates</a>
+                    <a href="#modes">Operating Modes</a>
+                </div>
+                <div class="docs-nav-section">
+                    <div class="docs-nav-title">API Reference</div>
+                    <a href="#endpoints">Endpoints</a>
+                    <a href="#webhooks">Webhooks</a>
+                    <a href="#rate-limits">Rate Limits</a>
+                </div>
+                <div class="docs-nav-section">
+                    <div class="docs-nav-title">Advanced</div>
+                    <a href="#deployment">Deployment</a>
+                    <a href="#database">Database Setup</a>
+                    <a href="#troubleshooting">Troubleshooting</a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Documentation Content -->
+        <main class="docs-content">
+            <div class="docs-header">
+                <h1 class="docs-title">Documentation</h1>
+                <p class="docs-description">
+                    Complete guide to setting up and using the 3p99 Instagram Comment-Bot automation system
+                </p>
+            </div>
+
+            <!-- Overview -->
+            <section id="overview" class="docs-section">
+                <h2>Overview</h2>
+                <p>
+                    The 3p99 Instagram Comment-Bot is an automated engagement system that monitors your Instagram posts,
+                    detects keyword triggers in comments, and responds automatically with customized messages and direct messages.
+                </p>
+                <p>
+                    Built on the official Instagram Graph API v21.0, the bot operates in two modes:
+                </p>
+                <ul>
+                    <li><strong>Polling Mode:</strong> Checks for new comments every 60 seconds</li>
+                    <li><strong>Webhook Mode:</strong> Receives real-time notifications from Instagram</li>
+                </ul>
+            </section>
+
+            <!-- Quick Start -->
+            <section id="quick-start" class="docs-section">
+                <h2>Quick Start</h2>
+                <p>Get your bot running in 5 minutes:</p>
+
+                <h3>1. Clone the Repository</h3>
+                <div class="code-block">
+                    <code>git clone https://github.com/yourusername/3p99.git
+cd 3p99</code>
+                </div>
+
+                <h3>2. Install Dependencies</h3>
+                <div class="code-block">
+                    <code>pip install -r requirements.txt</code>
+                </div>
+
+                <h3>3. Configure Environment</h3>
+                <div class="code-block">
+                    <code>cp .env.example .env
+# Edit .env with your Instagram credentials</code>
+                </div>
+
+                <h3>4. Run the Bot</h3>
+                <div class="code-block">
+                    <code>python instagram_auto_responder.py</code>
+                </div>
+
+                <div class="info-box">
+                    <p><strong>Note:</strong> Make sure you have a Facebook Developer account and Instagram Business account before proceeding.</p>
+                </div>
+            </section>
+
+            <!-- Installation -->
+            <section id="installation" class="docs-section">
+                <h2>Installation</h2>
+
+                <h3>Prerequisites</h3>
+                <ul>
+                    <li>Python 3.8 or higher</li>
+                    <li>Instagram Business or Creator account</li>
+                    <li>Facebook Developer account</li>
+                    <li>Meta App with Instagram permissions</li>
+                </ul>
+
+                <h3>System Requirements</h3>
+                <div class="code-block">
+                    <code>Python >= 3.8
+Flask >= 3.0.0
+SQLAlchemy >= 2.0.23
+requests >= 2.31.0</code>
+                </div>
+
+                <h3>Install from Requirements</h3>
+                <div class="code-block">
+                    <code>pip install -r requirements.txt</code>
+                </div>
+            </section>
+
+            <!-- Authentication -->
+            <section id="authentication" class="docs-section">
+                <h2>Authentication</h2>
+
+                <h3>OAuth 2.0 Flow</h3>
+                <p>The bot uses Instagram's OAuth 2.0 for authentication. Follow these steps:</p>
+
+                <ol>
+                    <li>Create a Meta App at <a href="https://developers.facebook.com" target="_blank">developers.facebook.com</a></li>
+                    <li>Add Instagram product to your app</li>
+                    <li>Configure OAuth redirect URIs</li>
+                    <li>Request necessary permissions</li>
+                </ol>
+
+                <h3>Required Scopes</h3>
+                <ul>
+                    <li><span class="inline-code">instagram_business_basic</span> - Read basic account info</li>
+                    <li><span class="inline-code">instagram_business_manage_comments</span> - Read and reply to comments</li>
+                    <li><span class="inline-code">instagram_business_manage_messages</span> - Send direct messages</li>
+                    <li><span class="inline-code">instagram_business_content_publish</span> - Access post data</li>
+                </ul>
+
+                <h3>Getting Access Token</h3>
+                <p>Run the authentication helper:</p>
+                <div class="code-block">
+                    <code>python sample_app.py</code>
+                </div>
+                <p>This will generate an authorization URL. Follow the prompts to obtain your long-lived access token.</p>
+
+                <div class="warning-box">
+                    <p><strong>Security:</strong> Never commit your access token to version control. Always use environment variables.</p>
+                </div>
+            </section>
+
+            <!-- Keywords Setup -->
+            <section id="keywords" class="docs-section">
+                <h2>Keywords Setup</h2>
+
+                <p>Configure trigger keywords in <span class="inline-code">jeffin_config.json</span>:</p>
+
+                <div class="code-block">
+                    <code>{
+  "app_id": "your_app_id",
+  "app_secret": "your_app_secret",
+  "access_token": "your_long_lived_token",
+  "trigger_keywords": ["giveaway", "cyber", "books"],
+  "comment_reply": "Thanks for your interest! 🎉",
+  "dm_message": "Check your inbox for details!"
+}</code>
+                </div>
+
+                <h3>Keyword Matching</h3>
+                <p>The bot uses case-insensitive matching. A comment like "I love this GIVEAWAY!" will match the keyword "giveaway".</p>
+            </section>
+
+            <!-- Message Templates -->
+            <section id="templates" class="docs-section">
+                <h2>Message Templates</h2>
+
+                <p>Customize your automated responses:</p>
+
+                <h3>Comment Reply Template</h3>
+                <div class="code-block">
+                    <code>"comment_reply_message": "Thanks for participating! Check your DMs 💬"</code>
+                </div>
+
+                <h3>Direct Message Template</h3>
+                <div class="code-block">
+                    <code>"dm_message": "Hi! Thanks for your interest. Here are the details..."</code>
+                </div>
+
+                <div class="info-box">
+                    <p><strong>Tip:</strong> Use emojis and personalized language to increase engagement rates.</p>
+                </div>
+            </section>
+
+            <!-- Operating Modes -->
+            <section id="modes" class="docs-section">
+                <h2>Operating Modes</h2>
+
+                <h3>Polling Mode (Recommended for Testing)</h3>
+                <p>Checks Instagram API every 60 seconds for new comments:</p>
+                <div class="code-block">
+                    <code>from instagram_auto_responder import InstagramAutoResponder
+
+bot = InstagramAutoResponder('jeffin_config.json')
+bot.monitor_and_respond()  # Runs continuously</code>
+                </div>
+
+                <h3>Webhook Mode (Production)</h3>
+                <p>Receives real-time events from Instagram:</p>
+                <div class="code-block">
+                    <code>python app.py  # Start Flask webhook server</code>
+                </div>
+
+                <p>Configure webhook in Meta App settings:</p>
+                <ul>
+                    <li>Callback URL: <span class="inline-code">https://yourdomain.com/webhook</span></li>
+                    <li>Verify Token: Set in <span class="inline-code">.env</span></li>
+                    <li>Subscribe to: comments, messages</li>
+                </ul>
+            </section>
+
+            <!-- API Endpoints -->
+            <section id="endpoints" class="docs-section">
+                <h2>API Endpoints</h2>
+
+                <h3>Email Subscription</h3>
+                <div class="api-endpoint">
+                    <span class="api-method">POST</span>
+                    <span class="api-path">/api/subscribe</span>
+                </div>
+                <p>Subscribe email addresses from landing page.</p>
+                <div class="code-block">
+                    <code>POST /api/subscribe
+Content-Type: application/json
+
+{
+  "email": "user@example.com"
+}</code>
+                </div>
+
+                <h3>Get Subscribers</h3>
+                <div class="api-endpoint">
+                    <span class="api-method">GET</span>
+                    <span class="api-path">/api/subscribers</span>
+                </div>
+                <p>Retrieve all email subscribers (admin only).</p>
+
+                <h3>Webhook Endpoint</h3>
+                <div class="api-endpoint">
+                    <span class="api-method">GET/POST</span>
+                    <span class="api-path">/webhook</span>
+                </div>
+                <p>Instagram webhook verification and event receiver.</p>
+            </section>
+
+            <!-- Webhooks -->
+            <section id="webhooks" class="docs-section">
+                <h2>Webhooks</h2>
+
+                <p>Instagram webhooks provide real-time notifications for:</p>
+                <ul>
+                    <li>New comments on your posts</li>
+                    <li>Direct message events</li>
+                    <li>Mention notifications</li>
+                </ul>
+
+                <h3>Webhook Verification</h3>
+                <p>Instagram sends a GET request to verify your webhook:</p>
+                <div class="code-block">
+                    <code>GET /webhook?hub.mode=subscribe&hub.challenge=123456&hub.verify_token=YOUR_TOKEN</code>
+                </div>
+
+                <h3>Webhook Events</h3>
+                <p>Example comment event payload:</p>
+                <div class="code-block">
+                    <code>{
+  "entry": [{
+    "id": "instagram_account_id",
+    "changes": [{
+      "field": "comments",
+      "value": {
+        "id": "comment_id",
+        "text": "I love this giveaway!",
+        "from": { "id": "user_id", "username": "user_123" },
+        "media": { "id": "media_id" }
+      }
+    }]
+  }]
+}</code>
+                </div>
+            </section>
+
+            <!-- Rate Limits -->
+            <section id="rate-limits" class="docs-section">
+                <h2>Rate Limits</h2>
+
+                <p>Instagram Graph API enforces the following rate limits:</p>
+
+                <ul>
+                    <li><strong>Standard tier:</strong> 200 calls per hour per user</li>
+                    <li><strong>Business tier:</strong> Higher limits available</li>
+                    <li><strong>Webhook events:</strong> No rate limit on receiving</li>
+                </ul>
+
+                <div class="warning-box">
+                    <p><strong>Important:</strong> The bot automatically respects rate limits by checking comments every 60 seconds in polling mode.</p>
+                </div>
+
+                <h3>Best Practices</h3>
+                <ul>
+                    <li>Use webhook mode for production (no API calls needed)</li>
+                    <li>Set polling interval to 60+ seconds</li>
+                    <li>Implement exponential backoff on errors</li>
+                    <li>Cache processed comment IDs to avoid duplicates</li>
+                </ul>
+            </section>
+
+            <!-- Deployment -->
+            <section id="deployment" class="docs-section">
+                <h2>Deployment</h2>
+
+                <h3>Deploy to Railway</h3>
+                <ol>
+                    <li>Connect your GitHub repository to Railway</li>
+                    <li>Add environment variables from <span class="inline-code">.env</span></li>
+                    <li>Railway will auto-deploy using <span class="inline-code">Procfile</span></li>
+                </ol>
+
+                <h3>Deploy to Heroku</h3>
+                <div class="code-block">
+                    <code>heroku create your-app-name
+heroku config:set INSTAGRAM_ACCESS_TOKEN=your_token
+git push heroku main</code>
+                </div>
+
+                <h3>Environment Variables</h3>
+                <p>Required for production:</p>
+                <div class="code-block">
+                    <code>INSTAGRAM_ACCESS_TOKEN=your_long_lived_token
+INSTAGRAM_APP_SECRET=your_app_secret
+VERIFY_TOKEN=your_webhook_verify_token
+DATABASE_URL=your_database_url</code>
+                </div>
+            </section>
+
+            <!-- Database Setup -->
+            <section id="database" class="docs-section">
+                <h2>Database Setup</h2>
+
+                <p>The bot uses SQLAlchemy for database operations. Supports SQLite (development) and PostgreSQL (production).</p>
+
+                <h3>Automatic Setup</h3>
+                <p>Database tables are created automatically when you run the app:</p>
+                <div class="code-block">
+                    <code>python app.py  # Creates tables on first run</code>
+                </div>
+
+                <h3>Database Models</h3>
+                <ul>
+                    <li><strong>EmailSubscriber:</strong> Stores landing page email signups</li>
+                    <li><strong>ProcessedComments:</strong> Tracks which comments have been responded to (future)</li>
+                </ul>
+            </section>
+
+            <!-- Troubleshooting -->
+            <section id="troubleshooting" class="docs-section">
+                <h2>Troubleshooting</h2>
+
+                <h3>Common Issues</h3>
+
+                <h4>Access Token Expired</h4>
+                <p><strong>Symptom:</strong> Bot stops working after 60 days</p>
+                <p><strong>Solution:</strong> Long-lived tokens expire after 60 days. Re-run <span class="inline-code">sample_app.py</span> to get a new token.</p>
+
+                <h4>Webhook Verification Failed</h4>
+                <p><strong>Symptom:</strong> Instagram can't verify your webhook</p>
+                <p><strong>Solution:</strong> Ensure your <span class="inline-code">VERIFY_TOKEN</span> matches in both Meta App settings and <span class="inline-code">.env</span></p>
+
+                <h4>Comments Not Being Detected</h4>
+                <p><strong>Symptom:</strong> Bot doesn't respond to comments</p>
+                <p><strong>Solutions:</strong></p>
+                <ul>
+                    <li>Check that keywords match (case-insensitive)</li>
+                    <li>Verify you have Instagram Business/Creator account</li>
+                    <li>Ensure proper permissions in Meta App</li>
+                    <li>Check bot is running without errors</li>
+                </ul>
+
+                <h4>Rate Limit Errors</h4>
+                <p><strong>Symptom:</strong> API returns 429 errors</p>
+                <p><strong>Solution:</strong> Increase polling interval to 120+ seconds or switch to webhook mode</p>
+
+                <h3>Debug Mode</h3>
+                <p>Enable debug logging:</p>
+                <div class="code-block">
+                    <code>DEBUG=True python app.py</code>
+                </div>
+
+                <h3>Need Help?</h3>
+                <p>For additional support:</p>
+                <ul>
+                    <li>Check the <a href="https://developers.facebook.com/docs/instagram-api" target="_blank">Instagram API docs</a></li>
+                    <li>Review your Meta App dashboard for errors</li>
+                    <li>Contact support at support@3p99.com</li>
+                </ul>
+            </section>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                            <rect width="32" height="32" rx="8" fill="#6366F1"/>
+                            <path d="M10 16L14 20L22 12" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span class="logo-text">3p99</span>
+                    </div>
+                    <p class="footer-tagline">Intelligent Instagram automation for modern creators</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Product</h4>
+                        <a href="index.html#features">Features</a>
+                        <a href="index.html#pricing">Pricing</a>
+                        <a href="index.html#demo">Demo</a>
+                        <a href="docs.html">Documentation</a>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Legal</h4>
+                        <a href="privacy_policy.html">Privacy Policy</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 3p99. All rights reserved.</p>
+                <p>Built with Instagram Graph API v21.0</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll for sidebar links
+        document.querySelectorAll('.docs-nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offset = 100;
+                    const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+
+                    // Update active state
+                    document.querySelectorAll('.docs-nav a').forEach(link => link.classList.remove('active'));
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        // Update active link on scroll
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('.docs-section');
+            let current = '';
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 120;
+                if (window.pageYOffset >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            document.querySelectorAll('.docs-nav a').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
