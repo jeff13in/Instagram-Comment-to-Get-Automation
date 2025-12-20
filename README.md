@@ -1,6 +1,6 @@
 # 3p99 - Instagram Comment-Bot Automation
 
-![3p99 Logo](3P99_Logo.png)
+![3P99 Logo](3P99_Logo.png)
 
 Automate Instagram comment responses with intelligent keyword detection. Grow your engagement effortlessly with real-time auto-replies and direct messaging.
 
