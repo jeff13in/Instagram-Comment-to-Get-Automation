@@ -246,23 +246,6 @@ Edit the following files to customize your landing page:
 - **GET**: Webhook verification
 - **POST**: Instagram event receiver
 
-## 🚀 Deployment
-
-### Deploy to Railway
-
-1. Connect your GitHub repository to Railway
-2. Add environment variables from `.env`
-3. Railway will auto-deploy using `Procfile`
-
-### Deploy to Heroku
-
-```bash
-heroku create your-app-name
-heroku config:set INSTAGRAM_ACCESS_TOKEN=your_token
-heroku config:set INSTAGRAM_APP_SECRET=your_app_secret
-heroku config:set VERIFY_TOKEN=your_verify_token
-```
-
 ### Environment Variables for Production
 
 ```env
