@@ -261,7 +261,6 @@ heroku create your-app-name
 heroku config:set INSTAGRAM_ACCESS_TOKEN=your_token
 heroku config:set INSTAGRAM_APP_SECRET=your_app_secret
 heroku config:set VERIFY_TOKEN=your_verify_token
-git push heroku main
 ```
 
 ### Environment Variables for Production
@@ -308,40 +307,6 @@ Topics covered:
 ├── privacy_policy.html             # Privacy policy
 └── README.md                       # This file
 ```
-
-## 🔧 Troubleshooting
-
-### Access Token Expired
-
-**Symptom**: Bot stops working after 60 days
-
-**Solution**: Long-lived tokens expire after 60 days. Re-run `sample_app.py` to get a new token.
-
-### Webhook Verification Failed
-
-**Symptom**: Instagram can't verify your webhook
-
-**Solution**: Ensure your `VERIFY_TOKEN` matches in both Meta App settings and `.env`
-
-### Comments Not Being Detected
-
-**Symptom**: Bot doesn't respond to comments
-
-**Solutions**:
-- Check that keywords match (case-insensitive)
-- Verify you have Instagram Business/Creator account
-- Ensure proper permissions in Meta App
-- Check bot is running without errors
-
-### Rate Limit Errors
-
-**Symptom**: API returns 429 errors
-
-**Solution**: Increase polling interval to 120+ seconds or switch to webhook mode
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 📄 License
 
