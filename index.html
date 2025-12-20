@@ -4,13 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Automate Instagram comment responses with intelligent keyword detection. Grow your engagement effortlessly with 3p99 Comment-Bot.">
-    <title>3p99 - Instagram Comment-Bot Automation | Auto-Respond & Engage</title>
+    <title>Instagram Comment-Bot Automation | Auto-Respond & Engage</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Google Sign-In API -->
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
     <!-- Navigation -->
@@ -22,11 +20,12 @@
                         <rect width="32" height="32" rx="8" fill="#6366F1"/>
                         <path d="M10 16L14 20L22 12" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
-                    <span class="logo-text">3p99</span>
+                    <span class="logo-text">Instagram Comment-Bot Automation</span>
                 </div>
                 <div class="nav-links">
                     <a href="#features">Features</a>
                     <a href="#how-it-works">How It Works</a>
+                    <a href="#dm-config">DM Bot</a>
                     <a href="#pricing">Pricing</a>
                     <a href="#faq">FAQ</a>
                 </div>
@@ -379,6 +378,115 @@
         </div>
     </section>
 
+    <!-- DM Bot Configuration Section -->
+    <section id="dm-config" class="dm-config">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">DM Bot Configuration</h2>
+                <p class="section-description">Configure automatic direct messages for comments with trigger keywords</p>
+            </div>
+
+            <div class="dm-config-container">
+                <div class="dm-config-card">
+                    <div class="dm-config-header">
+                        <h3>Trigger Keywords</h3>
+                        <span class="dm-status" id="dmStatus">Active</span>
+                    </div>
+
+                    <div class="dm-keywords">
+                        <div class="keyword-item">
+                            <span class="keyword-badge">cyber</span>
+                            <span class="keyword-desc">Technology & cybersecurity discussions</span>
+                        </div>
+                        <div class="keyword-item">
+                            <span class="keyword-badge">books</span>
+                            <span class="keyword-desc">Book recommendations & reading</span>
+                        </div>
+                        <div class="keyword-item">
+                            <span class="keyword-badge">project</span>
+                            <span class="keyword-desc">Project inquiries & collaborations</span>
+                        </div>
+                    </div>
+
+                    <div class="dm-message-preview">
+                        <h4>Auto-DM Message Preview</h4>
+                        <div class="message-box">
+                            <p>👋 Hi! Thanks for your comment!</p>
+                            <p>I noticed you mentioned one of our trigger keywords. I'd love to connect and share more information with you.</p>
+                            <p>Feel free to reach out if you have any questions! 🚀</p>
+                        </div>
+                    </div>
+
+                    <div class="dm-actions">
+                        <button class="btn-primary dm-test-btn" id="testDMBtn">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style="margin-right: 8px;">
+                                <path d="M2 3L18 10L2 17V11L13 10L2 9V3Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            Test DM Feature
+                        </button>
+                        <button class="btn-secondary dm-settings-btn" id="dmSettingsBtn">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style="margin-right: 8px;">
+                                <circle cx="10" cy="10" r="3" stroke="currentColor" stroke-width="2"/>
+                                <path d="M10 1V4M10 16V19M19 10H16M4 10H1M16.95 16.95L14.83 14.83M5.17 5.17L3.05 3.05M16.95 3.05L14.83 5.17M5.17 14.83L3.05 16.95" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                            Configure Settings
+                        </button>
+                    </div>
+
+                    <div class="dm-stats">
+                        <div class="stat-item">
+                            <div class="stat-number" id="dmSentCount">0</div>
+                            <div class="stat-label">DMs Sent Today</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" id="dmResponseRate">0%</div>
+                            <div class="stat-label">Response Rate</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" id="dmActiveKeywords">3</div>
+                            <div class="stat-label">Active Keywords</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dm-info-card">
+                    <h3>How It Works</h3>
+                    <div class="dm-steps">
+                        <div class="dm-step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>Comment Detection</h4>
+                                <p>Bot monitors your Instagram posts for new comments containing trigger keywords: <strong>cyber</strong>, <strong>books</strong>, or <strong>project</strong></p>
+                            </div>
+                        </div>
+                        <div class="dm-step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4>Automatic Reply</h4>
+                                <p>When a trigger word is detected, bot automatically replies to the comment on your post</p>
+                            </div>
+                        </div>
+                        <div class="dm-step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h4>Send DM</h4>
+                                <p>Bot sends a personalized direct message to the commenter with more information or a follow-up</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dm-note">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <circle cx="10" cy="10" r="9" stroke="#6366F1" stroke-width="2"/>
+                            <path d="M10 6V10M10 14H10.01" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        <p><strong>Note:</strong> DMs can only be sent to users who follow your account or have allowed message requests. Ensure your Instagram Business account has proper permissions.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Use Cases Section -->
     <section class="use-cases">
         <div class="container">
@@ -554,7 +662,7 @@
                             <rect width="32" height="32" rx="8" fill="#6366F1"/>
                             <path d="M10 16L14 20L22 12" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
-                        <span class="logo-text">3p99</span>
+                        <span class="logo-text">Instagram Comment-Bot Automation</span>
                     </div>
                     <p class="footer-tagline">Intelligent Instagram automation for modern creators</p>
                 </div>
@@ -582,12 +690,13 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 3p99. All rights reserved.</p>
+                <p>&copy; 2025 Instagram Comment-Bot Automation. All rights reserved.</p>
                 <p>Built with Instagram Graph API v21.0</p>
             </div>
         </div>
     </footer>
 
     <script src="script.js"></script>
+    <script src="script_auth.js"></script>
 </body>
 </html>

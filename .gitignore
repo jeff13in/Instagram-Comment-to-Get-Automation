@@ -77,11 +77,16 @@ python3
 # Config files with sensitive data (if any)
 *_config.json
 !example_config.json
+client_secret.json
 
 # Node modules (if using any JS dependencies)
 node_modules/
 package-lock.json
 
+
+3p99_synyax.png
+GOOGLE_AUTH_SETUP.md
+technical_report.tex
 # Pytest
 .pytest_cache/
 .coverage

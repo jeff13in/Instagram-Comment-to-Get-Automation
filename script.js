@@ -337,69 +337,27 @@ function typeWriter(element, text, speed = 100) {
     type();
 }
 
-// Google Authentication
+// ====================================================
+// OLD GOOGLE AUTH CODE - DEPRECATED
+// Now using Flask backend OAuth flow (see script_auth.js)
+// Kept for reference only - can be deleted
+// ====================================================
+
+/*
+// Google Authentication (DEPRECATED - using Flask backend now)
 let googleUser = null;
 
-// Initialize Google Sign-In
+// Initialize Google Sign-In (DEPRECATED)
 function initializeGoogleSignIn() {
-    // Replace 'YOUR_GOOGLE_CLIENT_ID' with your actual Google OAuth Client ID
-    const CLIENT_ID = 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com';
-
-    google.accounts.id.initialize({
-        client_id: CLIENT_ID,
-        callback: handleCredentialResponse,
-        auto_select: false,
-    });
-
-    // Render the Google Sign-In button
-    google.accounts.id.renderButton(
-        document.getElementById('googleSignInBtn'),
-        {
-            theme: 'outline',
-            size: 'large',
-            text: 'signin_with',
-            shape: 'rectangular',
-            logo_alignment: 'left',
-        }
-    );
-
-    // Check if user is already logged in (from localStorage)
-    const savedUser = localStorage.getItem('googleUser');
-    if (savedUser) {
-        try {
-            googleUser = JSON.parse(savedUser);
-            showUserProfile(googleUser);
-        } catch (error) {
-            console.error('Error parsing saved user:', error);
-            localStorage.removeItem('googleUser');
-        }
-    }
+    console.warn('Old client-side Google Sign-In is deprecated. Using Flask backend OAuth instead.');
 }
 
-// Handle Google Sign-In response
+// Handle Google Sign-In response (DEPRECATED)
 function handleCredentialResponse(response) {
-    // Decode the JWT token to get user information
-    const userInfo = parseJwt(response.credential);
-
-    googleUser = {
-        id: userInfo.sub,
-        name: userInfo.name,
-        email: userInfo.email,
-        picture: userInfo.picture,
-        credential: response.credential,
-    };
-
-    // Save to localStorage
-    localStorage.setItem('googleUser', JSON.stringify(googleUser));
-
-    // Show user profile
-    showUserProfile(googleUser);
-
-    // Show success notification
-    showNotification(`Welcome, ${googleUser.name}!`, 'success');
+    console.warn('Old handleCredentialResponse is deprecated. Using Flask backend OAuth instead.');
 }
 
-// Parse JWT token
+// Parse JWT token (DEPRECATED)
 function parseJwt(token) {
     const base64Url = token.split('.')[1];
     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -410,88 +368,12 @@ function parseJwt(token) {
     return JSON.parse(jsonPayload);
 }
 
-// Show user profile
-function showUserProfile(user) {
-    // Hide sign-in button
-    document.getElementById('googleSignInBtn').style.display = 'none';
+*/
 
-    // Show user profile
-    const userProfile = document.getElementById('userProfile');
-    userProfile.style.display = 'block';
-
-    // Update profile information
-    document.getElementById('profileAvatar').src = user.picture;
-    document.getElementById('profileName').textContent = user.name;
-    document.getElementById('dropdownAvatar').src = user.picture;
-    document.getElementById('dropdownName').textContent = user.name;
-    document.getElementById('dropdownEmail').textContent = user.email;
-}
-
-// Hide user profile (on sign out)
-function hideUserProfile() {
-    // Show sign-in button
-    document.getElementById('googleSignInBtn').style.display = 'flex';
-
-    // Hide user profile
-    document.getElementById('userProfile').style.display = 'none';
-
-    // Clear profile information
-    document.getElementById('profileAvatar').src = '';
-    document.getElementById('profileName').textContent = '';
-}
-
-// Profile dropdown toggle
-const profileButton = document.querySelector('.profile-button');
-const profileDropdown = document.getElementById('profileDropdown');
-
-if (profileButton && profileDropdown) {
-    profileButton.addEventListener('click', (e) => {
-        e.stopPropagation();
-        profileButton.classList.toggle('active');
-        profileDropdown.classList.toggle('active');
-    });
-
-    // Close dropdown when clicking outside
-    document.addEventListener('click', (e) => {
-        if (!profileButton.contains(e.target) && !profileDropdown.contains(e.target)) {
-            profileButton.classList.remove('active');
-            profileDropdown.classList.remove('active');
-        }
-    });
-}
-
-// Sign out functionality
-const signOutBtn = document.getElementById('signOutBtn');
-if (signOutBtn) {
-    signOutBtn.addEventListener('click', () => {
-        // Clear user data
-        googleUser = null;
-        localStorage.removeItem('googleUser');
-
-        // Hide profile UI
-        hideUserProfile();
-
-        // Close dropdown
-        profileButton.classList.remove('active');
-        profileDropdown.classList.remove('active');
-
-        // Show notification
-        showNotification('You have been signed out successfully', 'info');
-
-        // Sign out from Google
-        google.accounts.id.disableAutoSelect();
-    });
-}
-
-// Initialize Google Sign-In when the page loads
-if (typeof google !== 'undefined') {
-    initializeGoogleSignIn();
-} else {
-    // Wait for Google API to load
-    window.addEventListener('load', () => {
-        setTimeout(initializeGoogleSignIn, 500);
-    });
-}
+// ====================================================
+// END OF DEPRECATED CODE
+// All Google Auth now handled by script_auth.js
+// ====================================================
 
 // Console message for developers
 console.log('%c3p99 Instagram Bot', 'font-size: 20px; font-weight: bold; color: #6366F1;');
