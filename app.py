@@ -2,6 +2,9 @@ import json
 import requests
 import os
 import pathlib
+import secrets
+import hmac
+import hashlib
 from datetime import datetime
 from flask import Flask, request, send_file, jsonify, render_template_string, session, abort, redirect
 from flask_sqlalchemy import SQLAlchemy
@@ -15,8 +18,12 @@ load_dotenv()
 
 app = Flask(__name__)
 
-# Secret key for session management
-app.secret_key = os.getenv('SECRET_KEY', 'your-secret-key-change-this-in-production')
+# Secret key for session management — must be set via SECRET_KEY env var in production
+_secret_key = os.getenv('SECRET_KEY')
+if not _secret_key:
+    _secret_key = secrets.token_hex(32)
+    print("WARNING: SECRET_KEY env var not set. Using a random key — sessions will not persist across restarts. Set SECRET_KEY in production.")
+app.secret_key = _secret_key
 
 # Database configuration
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'sqlite:///instagram_automation.db')
@@ -24,8 +31,12 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 # Google OAuth Configuration
-os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"  # Only for development, remove in production
-GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID', '33674737284-srfbp7srvi8ie2m0sr426fved0hjq2tp.apps.googleusercontent.com')
+# Allow HTTP (non-HTTPS) only when explicitly opted in for local development
+if os.getenv('OAUTHLIB_INSECURE_TRANSPORT') == '1':
+    os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
+GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID')
+if not GOOGLE_CLIENT_ID:
+    print("WARNING: GOOGLE_CLIENT_ID env var not set. Google OAuth token verification will fail.")
 client_secrets_file = os.path.join(pathlib.Path(__file__).parent, "client_secret.json")
 
 # Check if client_secret.json exists before creating flow
@@ -202,8 +213,9 @@ def subscribe():
 
 
 @app.route("/api/subscribers", methods=["GET"])
+@login_is_required
 def get_subscribers():
-    """Get all email subscribers (admin endpoint)"""
+    """Get all email subscribers (admin endpoint — requires authentication)"""
     try:
         subscribers = EmailSubscriber.query.order_by(EmailSubscriber.created_at.desc()).all()
         return jsonify({
@@ -218,7 +230,7 @@ def get_subscribers():
         }), 200
     except Exception as e:
         print(f"Error fetching subscribers: {str(e)}")
-        return jsonify({"success": False, "message": "An error occurred"}), 500
+        return jsonify({"success": False, "message": "An internal error occurred."}), 500
 
 
 @app.route("/api/test-dm", methods=["POST"])
@@ -377,8 +389,22 @@ def test_dm():
         traceback.print_exc()
         return jsonify({
             "success": False,
-            "message": f"Error: {str(e)}"
+            "message": "An internal error occurred. Please check server logs."
         }), 500
+
+
+def _verify_instagram_signature(raw_body: bytes, signature_header: str) -> bool:
+    """Verify the Instagram webhook X-Hub-Signature-256 header using HMAC-SHA256."""
+    if not signature_header or not signature_header.startswith('sha256='):
+        return False
+    received_sig = signature_header[len('sha256='):]
+    secret = os.getenv('INSTAGRAM_APP_SECRET', config.get('app_secret', ''))
+    expected_sig = hmac.new(
+        secret.encode('utf-8'),
+        raw_body,
+        hashlib.sha256
+    ).hexdigest()
+    return hmac.compare_digest(expected_sig, received_sig)
 
 
 @app.route("/webhook", methods=["GET","POST"])
@@ -386,6 +412,12 @@ def webhook():
     """Instagram webhook endpoint for real-time events"""
     if request.method == "POST":
         try:
+            raw_body = request.get_data()
+            sig_header = request.headers.get('X-Hub-Signature-256', '')
+            if not _verify_instagram_signature(raw_body, sig_header):
+                print("Webhook signature verification failed")
+                return jsonify({"success": False}), 403
+
             payload = request.get_json()
             print("Webhook received:")
             print(json.dumps(payload, indent=4))
@@ -404,7 +436,10 @@ def webhook():
         hub_challenge = request.args.get("hub.challenge")
         hub_verify_token = request.args.get("hub.verify_token")
 
-        verify_token = os.getenv('VERIFY_TOKEN', 'my_secret_webhook_token_123')
+        verify_token = os.getenv('VERIFY_TOKEN')
+        if not verify_token:
+            print("ERROR: VERIFY_TOKEN env var not set. Webhook verification will fail.")
+            return "Webhook not configured", 500
 
         if hub_mode == "subscribe" and hub_verify_token == verify_token:
             print("Webhook verified successfully!")
@@ -431,4 +466,5 @@ url
 
 
 if __name__ == "__main__":
-    app.run(port=5003, debug=True)
+    debug_mode = os.getenv('FLASK_DEBUG', 'false').lower() == 'true'
+    app.run(port=5003, debug=debug_mode)

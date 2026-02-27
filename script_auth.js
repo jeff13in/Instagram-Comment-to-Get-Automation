@@ -93,39 +93,36 @@ function showUserProfile(user) {
         signInBtn.style.display = 'none';
     }
 
-    // Show user profile
+    // Show user profile — build DOM safely to prevent XSS
     const userProfile = document.getElementById('userProfile');
     if (userProfile) {
         userProfile.style.display = 'flex';
-        userProfile.innerHTML = `
-            <img src="${user.picture}" alt="${user.name}" style="
-                width: 32px;
-                height: 32px;
-                border-radius: 50%;
-                object-fit: cover;
-            ">
-            <span style="
-                font-size: 14px;
-                font-weight: 500;
-                color: #1f2937;
-            ">${user.name}</span>
-            <a href="/logout" style="
-                text-decoration: none;
-                margin-left: 8px;
-            ">
-                <button style="
-                    padding: 6px 16px;
-                    background: #f3f4f6;
-                    border: 1px solid #d1d5db;
-                    border-radius: 4px;
-                    font-size: 13px;
-                    font-weight: 500;
-                    color: #374151;
-                    cursor: pointer;
-                    transition: all 0.2s ease;
-                ">Logout</button>
-            </a>
-        `;
+        userProfile.innerHTML = '';
+
+        const img = document.createElement('img');
+        // Validate picture URL is http/https before assigning (blocks javascript: URLs)
+        if (user.picture && /^https?:\/\//.test(user.picture)) {
+            img.src = user.picture;
+        }
+        img.alt = '';
+        img.style.cssText = 'width:32px;height:32px;border-radius:50%;object-fit:cover;';
+
+        const span = document.createElement('span');
+        span.textContent = user.name;  // textContent, never innerHTML — prevents XSS
+        span.style.cssText = 'font-size:14px;font-weight:500;color:#1f2937;';
+
+        const a = document.createElement('a');
+        a.href = '/logout';
+        a.style.cssText = 'text-decoration:none;margin-left:8px;';
+
+        const logoutBtn = document.createElement('button');
+        logoutBtn.textContent = 'Logout';
+        logoutBtn.style.cssText = 'padding:6px 16px;background:#f3f4f6;border:1px solid #d1d5db;border-radius:4px;font-size:13px;font-weight:500;color:#374151;cursor:pointer;transition:all 0.2s ease;';
+
+        a.appendChild(logoutBtn);
+        userProfile.appendChild(img);
+        userProfile.appendChild(span);
+        userProfile.appendChild(a);
     }
 }
 
